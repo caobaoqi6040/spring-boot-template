@@ -1,0 +1,27 @@
+name: Enhancement
+description: Suggest an enhancement
+title: "[Enhancement]: "
+labels: ["type/enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting an `enhancement`, please make sure there is no existing enhancement for the one you are requesting and it has been discussed with the team via [discussions](https://github.com/caobaoqi6040/spring-boot-template/discussions) or Slack. If so, please provide the following information:
+  - type: dropdown
+    id: module
+    attributes:
+      label: Module
+      description: For which module does the enhancement proposal apply?
+      options:
+        - core
+        - docs
+
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should be improved? What are the limitations of the current implications that would be solved by the proposal?
+    validations:
+      required: true
