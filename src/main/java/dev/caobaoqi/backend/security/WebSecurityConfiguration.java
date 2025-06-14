@@ -1,10 +1,12 @@
 package dev.caobaoqi.backend.security;
 
+import dev.caobaoqi.backend.user.enums.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authorization.AuthorizationEventPublisher;
 import org.springframework.security.authorization.SpringAuthorizationEventPublisher;
@@ -50,7 +52,9 @@ public class WebSecurityConfiguration {
 		http.cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource));
 		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.authorizeHttpRequests(authorize -> authorize
-			.anyRequest().permitAll());
+			.requestMatchers(HttpMethod.POST, "/api/v1/auth/sign-in").permitAll()
+			.requestMatchers("/api/v1/users/**").hasRole(Role.ADMIN.name())
+			.anyRequest().authenticated());
 		http.exceptionHandling((exceptionHandling) -> exceptionHandling
 			.accessDeniedHandler(restfulAuthenticationEntryPointHandler)
 			.authenticationEntryPoint(restfulAuthenticationEntryPointHandler));
